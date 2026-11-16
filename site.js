@@ -38,7 +38,7 @@
     var c = cenas[i], n = nomes[volta % nomes.length], l = lojas[volta % lojas.length];
     oEv.textContent = c.ev.replace('Marina', n).replace('Tatuapé', l);
     oRot.textContent = c.rot;
-    if (i === 3) { vendido += 12000 + Math.round(Math.random() * 30) * 1000; oNum.textContent = 'R$ ' + fmt(vendido); }
+    if (i === 3) { vendido += 12000 + Math.round(Math.random() * 30) * 1000; oNum.textContent = 'R$ ' + fmt(Math.round(vendido / 1000)) + ' mil'; }
     else { if (i === 0) leads++; oNum.textContent = fmt(leads); }
   }
   if (calmo) { marcar(3); var p = pos(.75); ponto.setAttribute('cx', p[0]); ponto.setAttribute('cy', p[1]); }
