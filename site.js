@@ -2,7 +2,7 @@
   'use strict';
   var calmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (s) { return document.querySelector(s); };
-  var evento = function (nome, params) { if (window.gtag) gtag('event', nome, params || {}); };
+  var evento = function (nome, params) { window.dataLayer = window.dataLayer || []; var o = { event: nome }; for (var k in (params || {})) o[k] = params[k]; dataLayer.push(o); };
 
   // ---------- topo e menu ----------
   var topo = $('#topo');
@@ -121,8 +121,6 @@
     var d = new FormData(f);
     var corpo = 'Nome: ' + d.get('nome') + '\nEmpresa: ' + d.get('empresa') + '\nWhatsApp: ' + d.get('whatsapp') + '\nLojas: ' + d.get('lojas') + '\nE-mail: ' + d.get('email');
     evento('generate_lead', { lojas: d.get('lojas') });
-    var m = window.VEXTOR_MEDICAO || {};
-    if (m.ADS && m.ADS_ROTULO_LEAD) evento('conversion', { send_to: m.ADS + '/' + m.ADS_ROTULO_LEAD });
     msg.textContent = 'Abrimos o seu e-mail com o pedido pronto. É só enviar que respondemos no mesmo dia útil.';
     location.href = 'mailto:contato@vextor360.com?subject=' + encodeURIComponent('Demonstração Vextor360 — ' + d.get('empresa')) + '&body=' + encodeURIComponent(corpo);
   });
@@ -135,6 +133,7 @@
     try { localStorage.setItem('v360_consentimento', sim ? 'sim' : 'nao'); } catch (e) {}
     var v = sim ? 'granted' : 'denied';
     if (window.gtag) gtag('consent', 'update', { ad_storage: v, analytics_storage: v, ad_user_data: v, ad_personalization: v });
+    evento(sim ? 'consentimento_aceito' : 'consentimento_recusado');
     ck.classList.remove('v');
   }
   $('#ck-sim').addEventListener('click', function () { escolher(true); });
