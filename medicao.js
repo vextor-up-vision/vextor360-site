@@ -1,7 +1,8 @@
 // Medição pelo Google Tag Manager (GTM-KT5S8QT5) com Consent Mode v2.
-// GA4, Google Ads e outras tags são configuradas dentro do GTM, não aqui.
+// GA4 (G-EP00KRSPJD) vai direto pelo gtag abaixo: NÃO crie outra tag do GA4 no GTM (contaria em dobro).
+// Google Ads e outras tags: configurar dentro do GTM.
 // Eventos enviados ao dataLayer pelo site: cta_click, calculadora_uso, generate_lead.
-window.VEXTOR_MEDICAO = { GTM: 'GTM-KT5S8QT5' };
+window.VEXTOR_MEDICAO = { GTM: 'GTM-KT5S8QT5', GA4: 'G-EP00KRSPJD' };
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){ dataLayer.push(arguments); }
@@ -16,7 +17,14 @@ gtag('set', 'ads_data_redaction', true);
   var c = null;
   try { c = localStorage.getItem('v360_consentimento'); } catch (e) {}
   if (c === 'sim') gtag('consent', 'update', { ad_storage: 'granted', analytics_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted' });
-  var id = window.VEXTOR_MEDICAO.GTM;
+  var m = window.VEXTOR_MEDICAO;
+  if (m.GA4) {
+    var g = document.createElement('script'); g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=' + m.GA4;
+    document.head.appendChild(g);
+    gtag('js', new Date());
+    gtag('config', m.GA4);
+  }
+  var id = m.GTM;
   if (!id) return;
   dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
   var s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtm.js?id=' + id;

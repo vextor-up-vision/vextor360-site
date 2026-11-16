@@ -2,7 +2,7 @@
   'use strict';
   var calmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (s) { return document.querySelector(s); };
-  var evento = function (nome, params) { window.dataLayer = window.dataLayer || []; var o = { event: nome }; for (var k in (params || {})) o[k] = params[k]; dataLayer.push(o); };
+  var evento = function (nome, params) { window.dataLayer = window.dataLayer || []; var o = { event: nome }; for (var k in (params || {})) o[k] = params[k]; dataLayer.push(o); if (window.gtag && !/^consentimento_/.test(nome)) gtag('event', nome, params || {}); };
 
   // ---------- topo e menu ----------
   var topo = $('#topo');
