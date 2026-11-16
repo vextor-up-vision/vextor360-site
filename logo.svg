@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-labelledby="title desc">
+  <title id="title">Vextor360</title>
+  <desc id="desc">Logo Vextor360 com o X azul e verde da marca em um ciclo circular.</desc>
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#18B9F4"/><stop offset="1" stop-color="#0878E8"/></linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#19D784"/><stop offset="1" stop-color="#05A86C"/></linearGradient>
+  </defs>
+  <!-- 360 degree cycle: deliberately open at the sides so the X remains the focus. -->
+  <path d="M 285 205 A 170 170 0 0 1 615 205" fill="none" stroke="url(#blue)" stroke-width="9" stroke-linecap="round"/>
+  <path d="M 615 205 A 170 170 0 0 1 285 205" fill="none" stroke="url(#green)" stroke-width="9" stroke-linecap="round"/>
+  <path d="M 601 198 L 621 205 L 604 217 Z" fill="#0878E8"/>
+  <path d="M 299 212 L 279 205 L 296 193 Z" fill="#19D784"/>
+  <!-- Signature Vextor X, drawn as two rounded strokes. -->
+  <path d="M 345 95 L 555 305" fill="none" stroke="url(#blue)" stroke-width="74" stroke-linecap="round"/>
+  <path d="M 555 95 L 345 305" fill="none" stroke="url(#green)" stroke-width="74" stroke-linecap="round"/>
+  <text x="450" y="465" text-anchor="middle" font-family="Montserrat, Avenir Next, Arial, sans-serif" font-size="112" font-weight="500" letter-spacing="-5" fill="#111827">
+    <tspan>ve</tspan><tspan fill="#0878E8">x</tspan><tspan>tor</tspan><tspan fill="#11B976" font-weight="650" letter-spacing="-3">360</tspan>
+  </text>
+</svg>
