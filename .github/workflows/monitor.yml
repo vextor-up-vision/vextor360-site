@@ -1,0 +1,29 @@
+name: Monitor
+
+# Confere de 10 em 10 minutos se o site e o sistema estão no ar.
+# Se cair, o job falha e o GitHub manda e-mail (Settings → Notifications → Actions).
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  conferir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Sistema (app.vextor360.com/saude)
+        run: |
+          for i in 1 2 3; do
+            r=$(curl -s -m 15 -o /dev/null -w '%{http_code}' https://app.vextor360.com/saude) && [ "$r" = 200 ] && { echo "ok"; exit 0; }
+            echo "tentativa $i: HTTP $r"; sleep 20
+          done
+          echo "::error::app.vextor360.com fora do ar"; exit 1
+      - name: Webhook do WhatsApp responde
+        run: |
+          r=$(curl -s -m 15 -o /dev/null -w '%{http_code}' "https://app.vextor360.com/webhooks/whatsapp?hub.mode=subscribe&hub.verify_token=x&hub.challenge=1")
+          [ "$r" = 403 ] || { echo "::error::webhook respondeu $r (esperado 403 com token errado)"; exit 1; }
+      - name: Site (vextor360.com)
+        run: |
+          r=$(curl -s -m 15 -o /dev/null -w '%{http_code}' https://vextor360.com/)
+          [ "$r" = 200 ] || { echo "::error::vextor360.com respondeu $r"; exit 1; }
