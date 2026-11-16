@@ -2,7 +2,7 @@
 // GA4 (G-EP00KRSPJD) vai direto pelo gtag abaixo: NÃO crie outra tag do GA4 no GTM (contaria em dobro).
 // Google Ads e outras tags: configurar dentro do GTM.
 // Eventos enviados ao dataLayer pelo site: cta_click, calculadora_uso, generate_lead.
-window.VEXTOR_MEDICAO = { GTM: 'GTM-KT5S8QT5', GA4: 'G-EP00KRSPJD' };
+window.VEXTOR_MEDICAO = { GTM: 'GTM-KT5S8QT5', GA4: 'G-EP00KRSPJD', ADS: 'AW-18219153497', ADS_LEAD: 'otyfCInEwLkdENnwyO9D' };
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){ dataLayer.push(arguments); }

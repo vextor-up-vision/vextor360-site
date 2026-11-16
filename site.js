@@ -121,6 +121,8 @@
     var d = new FormData(f);
     var corpo = 'Nome: ' + d.get('nome') + '\nEmpresa: ' + d.get('empresa') + '\nWhatsApp: ' + d.get('whatsapp') + '\nLojas: ' + d.get('lojas') + '\nE-mail: ' + d.get('email');
     evento('generate_lead', { lojas: d.get('lojas') });
+    var m = window.VEXTOR_MEDICAO || {};
+    if (window.gtag && m.ADS && m.ADS_LEAD) gtag('event', 'conversion', { send_to: m.ADS + '/' + m.ADS_LEAD, value: 1.0, currency: 'BRL' });
     msg.textContent = 'Abrimos o seu e-mail com o pedido pronto. É só enviar que respondemos no mesmo dia útil.';
     location.href = 'mailto:contato@vextor360.com?subject=' + encodeURIComponent('Demonstração Vextor360 — ' + d.get('empresa')) + '&body=' + encodeURIComponent(corpo);
   });
