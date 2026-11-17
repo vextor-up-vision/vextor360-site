@@ -114,17 +114,40 @@
   calc();
 
   // ---------- formulário de demonstração ----------
+  var API_DEMO = 'https://app.vextor360.com/api/site/demonstracao';
+  function utms() {
+    var u = {}, q = new URLSearchParams(location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'].forEach(function (k) { if (q.get(k)) u[k] = q.get(k).slice(0, 200); });
+    return u;
+  }
   $('#form-demo').addEventListener('submit', function (e) {
     e.preventDefault();
-    var f = e.target, msg = $('#msg-form');
+    var f = e.target, msg = $('#msg-form'), bt = f.querySelector('button[type=submit]');
     if (!f.checkValidity()) { msg.textContent = 'Preencha nome, empresa, WhatsApp e um e-mail válido.'; f.reportValidity(); return; }
     var d = new FormData(f);
-    var corpo = 'Nome: ' + d.get('nome') + '\nEmpresa: ' + d.get('empresa') + '\nWhatsApp: ' + d.get('whatsapp') + '\nLojas: ' + d.get('lojas') + '\nE-mail: ' + d.get('email');
-    evento('generate_lead', { lojas: d.get('lojas') });
-    var m = window.VEXTOR_MEDICAO || {};
-    if (window.gtag && m.ADS && m.ADS_LEAD) gtag('event', 'conversion', { send_to: m.ADS + '/' + m.ADS_LEAD, value: 1.0, currency: 'BRL' });
-    msg.textContent = 'Abrimos o seu e-mail com o pedido pronto. É só enviar que respondemos no mesmo dia útil.';
-    location.href = 'mailto:contato@vextor360.com?subject=' + encodeURIComponent('Demonstração Vextor360 — ' + d.get('empresa')) + '&body=' + encodeURIComponent(corpo);
+    var dados = { nome: d.get('nome'), empresa: d.get('empresa'), whatsapp: d.get('whatsapp'), lojas: d.get('lojas'), email: d.get('email'), site: d.get('site') || undefined, pagina: location.pathname, utm: utms() };
+    var porEmail = function () {
+      var corpo = 'Nome: ' + dados.nome + '\nEmpresa: ' + dados.empresa + '\nWhatsApp: ' + dados.whatsapp + '\nLojas: ' + dados.lojas + '\nE-mail: ' + dados.email;
+      msg.textContent = 'Não conseguimos enviar agora. Abrimos o seu e-mail com o pedido pronto: é só enviar.';
+      location.href = 'mailto:contato@vextor360.com?subject=' + encodeURIComponent('Demonstração Vextor360 — ' + dados.empresa) + '&body=' + encodeURIComponent(corpo);
+    };
+    bt.disabled = true; msg.textContent = 'Enviando…';
+    fetch(API_DEMO, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(dados) })
+      .then(function (r) {
+        bt.disabled = false;
+        if (r.ok) {
+          evento('generate_lead', { lojas: dados.lojas });
+          var m = window.VEXTOR_MEDICAO || {};
+          if (window.gtag && m.ADS && m.ADS_LEAD) gtag('event', 'conversion', { send_to: m.ADS + '/' + m.ADS_LEAD, value: 1.0, currency: 'BRL' });
+          f.reset();
+          msg.textContent = 'Pedido recebido. Vamos chamar você no WhatsApp no mesmo dia útil.';
+        } else if (r.status === 400) {
+          msg.textContent = 'Confira o WhatsApp (com DDD) e o e-mail e envie de novo.';
+        } else if (r.status === 429) {
+          msg.textContent = 'Recebemos vários envios seguidos. Espere alguns minutos ou escreva para contato@vextor360.com.';
+        } else porEmail();
+      })
+      .catch(function () { bt.disabled = false; porEmail(); });
   });
 
   // ---------- cookies (LGPD + Consent Mode) ----------

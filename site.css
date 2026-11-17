@@ -195,3 +195,6 @@ section.bloco.branco{background:#fff}
 .legal .fraco{color:var(--fraco);font-size:14px}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* campo isca para robôs (formulário de demonstração) */
+.isca { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
