@@ -32,7 +32,7 @@ h2+.lead,h1+.lead{margin-top:18px}
 .topo.rolou{border-bottom-color:var(--linha)}
 .topo .envolve{display:flex;align-items:center;gap:28px;height:76px}
 .topo .marca{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 23px 'Sora',sans-serif;letter-spacing:-.03em;color:var(--tinta)}
-.topo .marca img{width:38px;height:38px}
+.topo .marca img{display:block;width:auto;height:32px}
 .topo .marca b{font-weight:700}.topo .marca span{color:var(--verde)}
 .topo nav{display:flex;gap:26px;margin-left:auto}
 .topo nav a{color:var(--tinta-2);text-decoration:none;font-weight:500;font-size:16px}
@@ -179,6 +179,10 @@ section.bloco.branco{background:#fff}
 /* rodapé */
 .rodape{padding:48px 0;font-size:15px;color:var(--fraco)}
 .rodape .envolve{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+/* assinatura principal (manual v1.1): mínimo 360 px; no celular, a compacta */
+.rodape .assinatura{flex-basis:100%;display:block;margin-bottom:24px}.rodape .assinatura img{display:block;width:360px;height:auto}
+@media (max-width:439px){.rodape .assinatura img{width:200px}}
+@media (max-width:380px){.topo .marca img{height:28px}}
 .rodape nav{display:flex;gap:20px;flex-wrap:wrap}.rodape a{color:var(--tinta-2)}
 
 /* cookies */
